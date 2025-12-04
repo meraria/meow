@@ -3,34 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>My YouTube Video</title>
+  <title>My Video Page</title>
   <style>
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      height: 0;
-      overflow: hidden;
-      max-width: 100%;
-    }
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 20px; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 24px; max-width: 900px; margin: auto; }
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+    .video-container video { position: absolute; top:0; left:0; width:100%; height:100%; }
   </style>
 </head>
 <body>
-  <h1>My YouTube Video</h1>
-  <div class="video-wrapper">
-    <iframe
-      src="https://www.youtube.com/embed/hvL1339luv0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+  <h1>Never Gonna Meow You Up</h1>
+
+  <!-- poster: optional image shown before play. Replace poster.jpg or remove attribute if you don't have one -->
+  <div class="video-container">
+    <video controls playsinline preload="metadata" poster="poster.jpg">
+      <source src="myvideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
   </div>
+
+  <p>Caption or description here.</p>
 </body>
 </html>
+
