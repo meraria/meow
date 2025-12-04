@@ -5,23 +5,163 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Never Gonna Meow You Up</title>
   <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 24px; max-width: 900px; margin: auto; }
-    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-    .video-container video { position: absolute; top:0; left:0; width:100%; height:100%; }
+    body { 
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; 
+      padding: 24px; 
+      max-width: 900px; 
+      margin: auto;
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+    h1 {
+      text-align: center;
+      color: #ff69b4;
+    }
+    .video-container { 
+      position: relative; 
+      padding-bottom: 56.25%; 
+      height: 0; 
+      overflow: hidden;
+      background: #000;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .video-container video { 
+      position: absolute; 
+      top:0; 
+      left:0; 
+      width:100%; 
+      height:100%;
+    }
+    p {
+      text-align: center;
+      font-size: 1.2em;
+    }
+    .fullscreen-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .fullscreen-btn:hover {
+      background: #ff1493;
+      transform: scale(1.05);
+    }
+    
+    /* Fullscreen Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90vh;
+    }
+    .modal-video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .close-btn {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .close-btn:hover {
+      background: #ff1493;
+      transform: rotate(90deg);
+    }
   </style>
 </head>
 <body>
   <h1>Never Gonna Meow You Up</h1>
-
+  
   <div class="video-container">
-    <video controls playsinline preload="metadata">
+    <video id="meowVideo" controls playsinline preload="metadata" width="100%">
       <source src="meow.mp4" type="video/mp4">
+      <source src="./meow.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
+  <button class="fullscreen-btn" onclick="openFullscreen()">🎬 Open Fullscreen</button>
+  
   <p>Get Meow-Rolled :3</p>
+
+  <!-- Fullscreen Modal -->
+  <div class="modal" id="fullscreenModal" onclick="closeFullscreen(event)">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeFullscreen(event)">×</button>
+      <video id="modalVideo" class="modal-video" controls autoplay>
+        <source src="meow.mp4" type="video/mp4">
+        <source src="./meow.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('fullscreenModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const mainVideo = document.getElementById('meowVideo');
+
+    function openFullscreen() {
+      modal.classList.add('active');
+      modalVideo.currentTime = mainVideo.currentTime;
+      modalVideo.play();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullscreen(event) {
+      if (event.target === modal || event.target.classList.contains('close-btn')) {
+        modal.classList.remove('active');
+        mainVideo.currentTime = modalVideo.currentTime;
+        modalVideo.pause();
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeFullscreen({target: modal});
+      }
+    });
+
+    // Error handling
+    mainVideo.addEventListener('error', function(e) {
+      console.error('Video error:', e);
+    });
+  </script>
 </body>
 </html>
-
-
